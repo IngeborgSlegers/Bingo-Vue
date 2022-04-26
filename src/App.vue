@@ -23,37 +23,27 @@
       </template>
     </ui-form>
     <h2>Or create your own!</h2>
-    <ui-form nowrap item-margin-bottom="16" label-width="80">
-      <template #default="{ actionClass }">
-        <ui-form-field>
-          <ui-textfield
-            v-model="theme"
-            >Create a Theme</ui-textfield
-          >
-        </ui-form-field>
-        <ui-form-field :class="actionClass">
-          <ui-button raised @click.prevent="createTheme()">Create!</ui-button>
-        </ui-form-field>
-      </template>
-    </ui-form>
+    <ModalComponent :open="modalOpen" :fetchThemes="fetchThemes" :themes="themes"/>
   </div>
 </template>
 
 <script>
 import BoardLogic from "./components/BoardLogic.vue";
 import boardDataTemplate from "./components/boardDataTemplate";
+import ModalComponent from "./components/ModalComponent.vue";
 
 export default {
   components: {
     BoardLogic,
+    ModalComponent,
   },
   data() {
     return {
       themes: [],
       theme_id: null,
-      theme: "",
       board: boardDataTemplate,
       coordinates: { row: null, column: null },
+      modalOpen: false,
     };
   },
   methods: {
@@ -71,18 +61,6 @@ export default {
       if (data.board) this.board = data.board;
     },
 
-    async createTheme() {
-      const response = await fetch("http://localhost:3000/themes", {
-        method: "POST",
-        headers: new Headers({
-          "content-type": "application/json"
-        }),
-        body: JSON.stringify({themeName: this.theme})
-      })
-      await response.json();
-      this.fetchThemes();
-    },
-
     gotASquare(rowIndex, squareIndex) {
       this.board[rowIndex][squareIndex].checked = true;
       this.coordinates = { row: rowIndex, column: squareIndex };
@@ -90,10 +68,6 @@ export default {
 
     onSelected(theme) {
       this.theme = theme.id;
-    },
-
-    onChange(theme) {
-      console.log(theme);
     },
 
     formatThemes(themes) {
@@ -104,6 +78,14 @@ export default {
         };
       });
     },
+
+    onConfirm(result) {
+      if (result) {
+        console.log("ok");
+      } else {
+        console.log("cancel");
+      }
+    },
   },
   mounted() {
     this.fetchThemes();
@@ -111,6 +93,10 @@ export default {
   watch: {
     board(newState) {
       this.board = newState;
+    },
+    open(newState, oldState) {
+      console.log("I'm watching you", newState, oldState);
+      this.open = newState;
     },
   },
 };

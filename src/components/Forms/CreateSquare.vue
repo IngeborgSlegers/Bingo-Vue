@@ -5,8 +5,13 @@
         <ui-form-field>
           <ui-textfield v-model="theme">Create a Theme</ui-textfield>
         </ui-form-field>
+        <ui-form-field v-for="n in 25" :key="n - 1">
+          <ui-textfield v-model="squares[n - 1]">Option {{ n }}</ui-textfield>
+        </ui-form-field>
         <ui-form-field :class="actionClass">
-          <ui-button raised @click.prevent="createTheme()">Create!</ui-button>
+          <ui-button raised @click.prevent="createCustomBoard()"
+            >Create Board!</ui-button
+          >
         </ui-form-field>
       </template>
     </ui-form>
@@ -21,20 +26,25 @@ export default {
   data() {
     return {
       theme: "",
+      squares: [],
     };
   },
   methods: {
-    async createTheme() {
-      const response = await fetch("http://localhost:3000/themes", {
+    async createCustomBoard() {
+      const response = await fetch("http://localhost:3000/boards", {
         method: "POST",
         headers: new Headers({
           "content-type": "application/json",
         }),
-        body: JSON.stringify({ themeName: this.theme }),
+        body: JSON.stringify({ themeName: this.theme, squareValue: this.squares}),
       });
-      await response.json();
+      const data = await response.json();
+      console.log(data)
       this.theme = "";
       this.fetchThemes();
+    },
+    handleChange(e) {
+      this.squares = e.target.value;
     },
   },
 };
