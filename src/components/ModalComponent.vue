@@ -12,7 +12,7 @@
         <ui-panels v-model="active">
           <ui-panel><CreateTheme /></ui-panel>
           <ui-panel><ChooseTheme /></ui-panel>
-          <!-- <ui-panel><CreateSquare :fetchThemes="fetchThemes" /></ui-panel> -->
+          <ui-panel><CreateSquare /></ui-panel>
         </ui-panels>
       </ui-dialog-content>
       <ui-dialog-actions></ui-dialog-actions>
@@ -23,13 +23,13 @@
 <script>
 import CreateTheme from "./Forms/CreateTheme.vue";
 import ChooseTheme from "./Forms/ChooseTheme.vue";
-// import CreateSquare from "./Forms/CreateSquare.vue";
+import CreateSquare from "./Forms/CreateSquare.vue";
 
 export default {
   components: {
     CreateTheme,
     ChooseTheme,
-    // CreateSquare
+    CreateSquare
   },
   props: {
     modalOpen: Boolean,

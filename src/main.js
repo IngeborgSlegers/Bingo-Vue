@@ -7,10 +7,14 @@ import BalmUI from "balm-ui"; // Official Google Material Components
 import BalmUIPlus from "balm-ui/dist/balm-ui-plus.js"; // BalmJS Team Material Components
 import "balm-ui/dist/balm-ui.css";
 
-import { themeModule, squareModule } from "./store/modules/index.js";
+import {
+  themeModule,
+  squareModule,
+  boardModule,
+} from "./store/modules/index.js";
 
 const store = createStore({
-  modules: { themeModule, squareModule },
+  modules: { themeModule, squareModule, boardModule },
 });
 
 const app = createApp(App);

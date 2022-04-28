@@ -3,10 +3,20 @@
     <ui-form nowrap item-margin-bottom="16" label-width="80">
       <template #default="{ actionClass }">
         <ui-form-field>
-          <ui-textfield v-model="theme">Create a Theme</ui-textfield>
+          <ui-textfield 
+            :model-value="theme" 
+            @input="(e) => setTheme(e.target.value)"
+          >
+            Create a Theme
+          </ui-textfield>
         </ui-form-field>
         <ui-form-field v-for="n in 25" :key="n - 1">
-          <ui-textfield v-model="squares[n - 1]">Option {{ n }}</ui-textfield>
+          <ui-textfield
+            :model-value="squares[n - 1]"
+            @input="(e) => setSquares(e.target.value)"
+          >
+            Option {{ n }}
+          </ui-textfield>
         </ui-form-field>
         <ui-form-field :class="actionClass">
           <ui-button raised @click.prevent="createCustomBoard()"
@@ -19,30 +29,25 @@
 </template>
 
 <script>
+import { mapActions, mapMutations, mapState } from "vuex";
 export default {
-  props: {
-    fetchThemes: Function,
-  },
-  data() {
-    return {
-      theme: "",
-      squares: [],
-    };
+  // props: {
+  //   fetchThemes: Function,
+  // },
+  computed: {
+    ...mapState({
+      theme: (state) => state.themeModule.theme,
+      squares: (state) => state.squareModule.squares,
+    }),
   },
   methods: {
-    async createCustomBoard() {
-      const response = await fetch("http://localhost:3000/boards", {
-        method: "POST",
-        headers: new Headers({
-          "content-type": "application/json",
-        }),
-        body: JSON.stringify({ themeName: this.theme, squareValue: this.squares}),
-      });
-      const data = await response.json();
-      console.log(data)
-      this.theme = "";
-      this.fetchThemes();
-    },
+    ...mapActions({
+      createCustomBoard: "boardModule/createCustomBoard",
+    }),
+    ...mapMutations({
+      setSquares: "squareModule/setSquares",
+      setTheme: "themeModule/setTheme",
+    }),
     handleChange(e) {
       this.squares = e.target.value;
     },

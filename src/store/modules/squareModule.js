@@ -1,6 +1,7 @@
 const state = () => ({
   square: "",
   error: "",
+  squares: [],
 });
 
 const mutations = {
@@ -12,6 +13,9 @@ const mutations = {
   },
   setError(state, payload) {
     state.error = payload;
+  },
+  setSquares(state, payload) {
+    state.squares.push(payload);
   },
 };
 
