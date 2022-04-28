@@ -10,18 +10,9 @@
           <ui-tab>Build a custom board</ui-tab>
         </ui-tabs>
         <ui-panels v-model="active">
-          <ui-panel>
-            <div class="innerPanel">
-              <CreateTheme :fetchThemes="fetchThemes" class="createTheme" />
-              <ul class="unorderedList">
-                <li v-for="(theme, index) in themes" :key="index">
-                  {{ theme.themeName }},
-                </li>
-              </ul>
-            </div>
-          </ui-panel>
-          <ui-panel><ChooseTheme :themes="themes" /></ui-panel>
-          <ui-panel><CreateSquare :fetchThemes="fetchThemes" /></ui-panel>
+          <ui-panel><CreateTheme /></ui-panel>
+          <ui-panel><ChooseTheme /></ui-panel>
+          <!-- <ui-panel><CreateSquare :fetchThemes="fetchThemes" /></ui-panel> -->
         </ui-panels>
       </ui-dialog-content>
       <ui-dialog-actions></ui-dialog-actions>
@@ -32,15 +23,17 @@
 <script>
 import CreateTheme from "./Forms/CreateTheme.vue";
 import ChooseTheme from "./Forms/ChooseTheme.vue";
-import CreateSquare from "./Forms/CreateSquare.vue";
+// import CreateSquare from "./Forms/CreateSquare.vue";
 
 export default {
-  components: { CreateTheme, ChooseTheme, CreateSquare },
+  components: {
+    CreateTheme,
+    ChooseTheme,
+    // CreateSquare
+  },
   props: {
     modalOpen: Boolean,
     onConfirm: Function,
-    fetchThemes: Function,
-    themes: Array,
   },
   data() {
     return {
@@ -51,24 +44,4 @@ export default {
 };
 </script>
 
-<style>
-.createTheme {
-  display: flex;
-  align-content: center;
-  flex-direction: column;
-  justify-content: center;
-}
-.innerPanel {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-content: center;
-}
-
-.unorderedList {
-  list-style-type: none;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-}
-</style>
+<style></style>

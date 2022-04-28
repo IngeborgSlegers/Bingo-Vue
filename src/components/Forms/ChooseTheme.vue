@@ -3,61 +3,56 @@
     <template #default="{ actionClass }">
       <ui-form-field>
         <ui-select
-          v-model="theme_id"
-          :options="formatThemes(themes)"
+          :model-value="theme_id"
+          :options="formatThemes"
           default-label="Select a Theme"
-          @change="onSelected($event)"
+          @selected="(e) => setThemeID(e.value)"
           >Board Themes</ui-select
         >
       </ui-form-field>
       <ui-form-field>
-        <ui-textfield v-model="square">Add an option</ui-textfield>
+        <ui-textfield 
+          :value="square" 
+          @input="(e) => setSquare(e.target.value)"
+        >
+          Add an option
+        </ui-textfield>
       </ui-form-field>
       <ui-form-field :class="actionClass">
-        <ui-button raised @click.prevent="createSquare()">Add</ui-button>
+        <ui-button 
+          raised 
+          @click.prevent="createSquare(theme_id)"
+        >
+          Add
+        </ui-button>
       </ui-form-field>
     </template>
   </ui-form>
 </template>
 
 <script>
+import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
+
 export default {
-  props: { themes: Array },
-  data() {
-    return {
-      square: "",
-      theme_id: 0,
-    };
+  computed: {
+    ...mapState({
+      theme_id: (state) => state.themeModule.theme_id,
+      square: (state) => state.squareModule.square,
+      themes: (state) => state.themeModule.themes,
+    }),
+    ...mapGetters({
+      formatThemes: "themeModule/formatThemes",
+    }),
   },
   methods: {
-    formatThemes(themes) {
-      return themes.map((theme) => {
-        return {
-          label: theme.themeName,
-          value: theme.id,
-        };
-      });
-    },
-
-    onSelected(theme) {
-      this.theme = theme.id;
-    },
-
-    async createSquare() {
-      const response = await fetch(`http://localhost:3000/squares`, {
-        method: "POST",
-        headers: new Headers({
-          "content-type": "application/json",
-        }),
-        body: JSON.stringify({
-          squareValue: this.square,
-          theme_id: this.theme_id,
-        }),
-      });
-      await response.json();
-      this.square = "";
-      //   this.fetchThemes();
-    },
+    ...mapActions({
+      createSquare: "squareModule/createSquare",
+      fetchThemes: "themeModule/fetchThemes",
+    }),
+    ...mapMutations({
+      setSquare: "squareModule/setSquare",
+      setThemeID: "themeModule/setThemeID",
+    }),
   },
 };
 </script>

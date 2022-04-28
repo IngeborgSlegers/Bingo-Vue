@@ -23,7 +23,11 @@
       </template>
     </ui-form>
     <h2>Or create your own!</h2>
-    <ModalComponent :open="modalOpen" :fetchThemes="fetchThemes" :themes="themes"/>
+    <ModalComponent
+      :open="modalOpen"
+      :fetchThemes="fetchThemes"
+      :themes="themes"
+    />
   </div>
 </template>
 
@@ -31,6 +35,7 @@
 import BoardLogic from "./components/BoardLogic.vue";
 import boardDataTemplate from "./components/boardDataTemplate";
 import ModalComponent from "./components/ModalComponent.vue";
+import { mapActions, mapState } from "vuex";
 
 export default {
   components: {
@@ -39,19 +44,21 @@ export default {
   },
   data() {
     return {
-      themes: [],
-      theme_id: null,
       board: boardDataTemplate,
       coordinates: { row: null, column: null },
       modalOpen: false,
     };
   },
+  computed: {
+    ...mapState({
+      themes: (state) => state.themeModule.themes,
+      theme_id: (state) => state.themeModule.theme_id,
+    }),
+  },
   methods: {
-    async fetchThemes() {
-      const response = await fetch("http://localhost:3000/themes");
-      const data = await response.json();
-      this.themes = data;
-    },
+    ...mapActions({
+      fetchThemes: "themeModule/fetchThemes",
+    }),
 
     async fetchBoard() {
       const response = await fetch(
