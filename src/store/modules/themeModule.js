@@ -1,3 +1,5 @@
+import APIURL from "@/helpers/environment";
+
 const state = () => ({
   themes: [],
   theme_id: 0,
@@ -34,7 +36,7 @@ const getters = {
 const actions = {
   async fetchThemes({ commit }) {
     try {
-      const response = await fetch("https://bingo-rails.herokuapp.com/themes");
+      const response = await fetch(`${APIURL}/themes`);
       const data = await response.json();
       commit("setThemes", data);
     } catch (error) {
@@ -44,7 +46,7 @@ const actions = {
 
   async createTheme({ dispatch, commit, state }) {
     try {
-      const response = await fetch("https://bingo-rails.herokuapp.com/themes", {
+      const response = await fetch(`${APIURL}/themes`, {
         method: "POST",
         headers: new Headers({
           "content-type": "application/json",

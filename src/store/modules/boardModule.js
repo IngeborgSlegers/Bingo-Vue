@@ -1,4 +1,5 @@
 import boardDataTemplate from "@/components/boardDataTemplate";
+import APIURL from "@/helpers/environment";
 
 const state = () => ({
   error: "",
@@ -35,7 +36,7 @@ const mutations = {
 const actions = {
   async createCustomBoard({ commit, rootState, dispatch }) {
     try {
-      const response = await fetch("https://bingo-rails.herokuapp.com/boards", {
+      const response = await fetch(`${APIURL}/boards`, {
         method: "POST",
         headers: new Headers({
           "content-type": "application/json",
@@ -61,7 +62,7 @@ const actions = {
   async fetchBoard({ commit, rootState }) {
     try {
       const response = await fetch(
-        `https://bingo-rails.herokuapp.com/squares/${rootState.themeModule.theme_id}`
+        `${APIURL}/squares/${rootState.themeModule.theme_id}`
       );
       const data = await response.json();
       if (data.board) {

@@ -1,3 +1,5 @@
+import APIURL from "@/helpers/environment";
+
 const state = () => ({
   square: "",
   error: "",
@@ -26,7 +28,7 @@ const actions = {
   },
   async createSquare({ commit, state }, theme_id) {
     try {
-      const response = await fetch(`https://bingo-rails.herokuapp.com/squares`, {
+      const response = await fetch(`${APIURL}/squares`, {
         method: "POST",
         headers: new Headers({
           "content-type": "application/json",
