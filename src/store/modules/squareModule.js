@@ -2,19 +2,12 @@ import APIURL from "@/helpers/environment";
 
 const state = () => ({
   square: "",
-  error: "",
   squares: [],
 });
 
 const mutations = {
-  goDisplayValue(state, payload) {
-    state.displayValue = payload;
-  },
   setSquare(state, payload) {
     state.square = payload;
-  },
-  setError(state, payload) {
-    state.error = payload;
   },
   setSquares(state, payload) {
     const { value, index } = payload;
@@ -23,9 +16,6 @@ const mutations = {
 };
 
 const actions = {
-  setDisplayValue({ commit }, displayValue) {
-    commit("goDisplayValue", displayValue);
-  },
   async createSquare({ commit, state }, theme_id) {
     try {
       const response = await fetch(`${APIURL}/squares`, {
@@ -42,10 +32,10 @@ const actions = {
       if (response.status === 201) {
         commit("setSquare", "");
       } else {
-        commit("setError", data.error);
+        commit("snackBarModule/setError", data.error);
       }
     } catch (error) {
-      commit("setError", error);
+      commit("snackBarModule/setError", error);
     }
   },
 };

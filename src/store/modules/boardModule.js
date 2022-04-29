@@ -2,7 +2,6 @@ import boardDataTemplate from "@/components/boardDataTemplate";
 import APIURL from "@/helpers/environment";
 
 const state = () => ({
-  error: "",
   board: boardDataTemplate,
   coordinates: {
     row: null,
@@ -11,12 +10,6 @@ const state = () => ({
 });
 
 const mutations = {
-  goDisplayValue(state, payload) {
-    state.displayValue = payload;
-  },
-  setError(state, payload) {
-    state.error = payload;
-  },
   setBoard(state, payload) {
     state.board = payload;
   },
@@ -52,10 +45,10 @@ const actions = {
         commit("setTheme", "");
         commit("setSquares", []);
       } else {
-        commit("setError", data.error);
+        commit("snackBarModule/setError", data.error);
       }
     } catch (error) {
-      commit("setError", error);
+      commit("snackBarModule/setError", error);
     }
   },
 
@@ -68,10 +61,10 @@ const actions = {
       if (data.board) {
         commit("setBoard", data.board);
       } else {
-        commit("setError", data.error);
+        commit("snackBarModule/setError", data.error);
       }
     } catch (error) {
-      commit("setError", error);
+      commit("snackBarModule/setError", error);
     }
   },
 

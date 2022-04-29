@@ -3,16 +3,12 @@ import APIURL from "@/helpers/environment";
 const state = () => ({
   themes: [],
   theme_id: 0,
-  error: "",
   theme: "",
 });
 
 const mutations = {
   setThemes(state, payload) {
     state.themes = payload;
-  },
-  setError(state, payload) {
-    state.error = payload;
   },
   setTheme(state, payload) {
     state.theme = payload;
@@ -38,9 +34,13 @@ const actions = {
     try {
       const response = await fetch(`${APIURL}/themes`);
       const data = await response.json();
-      commit("setThemes", data);
+      if (response.status === 200) {
+        commit("setThemes", data);
+      } else {
+        commit("snackBarModule/setError", data.error);
+      }
     } catch (error) {
-      commit("setError", error);
+      commit("snackBarModule/setError", error);
     }
   },
 
@@ -58,10 +58,10 @@ const actions = {
         await dispatch("fetchThemes");
         commit("setTheme", "");
       } else {
-        commit("setError", data.error);
+        commit("snackBarModule/setError", data.error);
       }
     } catch (error) {
-      commit("setError", error);
+      commit("snackBarModule/setError", error);
     }
   },
 };
