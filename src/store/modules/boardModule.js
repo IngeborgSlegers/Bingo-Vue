@@ -35,7 +35,7 @@ const mutations = {
 const actions = {
   async createCustomBoard({ commit, rootState, dispatch }) {
     try {
-      const response = await fetch("http://localhost:3000/boards", {
+      const response = await fetch("https://bingo-rails.herokuapp.com/boards", {
         method: "POST",
         headers: new Headers({
           "content-type": "application/json",
@@ -61,7 +61,7 @@ const actions = {
   async fetchBoard({ commit, rootState }) {
     try {
       const response = await fetch(
-        `http://localhost:3000/squares/${rootState.themeModule.theme_id}`
+        `https://bingo-rails.herokuapp.com/squares/${rootState.themeModule.theme_id}`
       );
       const data = await response.json();
       if (data.board) {

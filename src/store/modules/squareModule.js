@@ -26,7 +26,7 @@ const actions = {
   },
   async createSquare({ commit, state }, theme_id) {
     try {
-      const response = await fetch(`http://localhost:3000/squares`, {
+      const response = await fetch(`https://bingo-rails.herokuapp.com/squares`, {
         method: "POST",
         headers: new Headers({
           "content-type": "application/json",

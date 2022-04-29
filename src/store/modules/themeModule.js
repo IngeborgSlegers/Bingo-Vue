@@ -34,7 +34,7 @@ const getters = {
 const actions = {
   async fetchThemes({ commit }) {
     try {
-      const response = await fetch("http://localhost:3000/themes");
+      const response = await fetch("https://bingo-rails.herokuapp.com/themes");
       const data = await response.json();
       commit("setThemes", data);
     } catch (error) {
@@ -44,7 +44,7 @@ const actions = {
 
   async createTheme({ dispatch, commit, state }) {
     try {
-      const response = await fetch("http://localhost:3000/themes", {
+      const response = await fetch("https://bingo-rails.herokuapp.com/themes", {
         method: "POST",
         headers: new Headers({
           "content-type": "application/json",
