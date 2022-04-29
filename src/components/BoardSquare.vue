@@ -2,11 +2,11 @@
   <ui-card
     outlined
     class="square"
-    :style="{ backgroundColor: square.checked ? 'red' : null }"
+    :style="{ backgroundColor: square.checked ? '#f9812e' : null }"
     @click="checkedASquare({ rowIndex, squareIndex })"
   >
     <ui-card-actions
-      ><ui-card-buttons>{{ square.value }}</ui-card-buttons></ui-card-actions
+      ><ui-card-buttons :style="{color: square.checked ? 'white' : 'black'}">{{ square.value }}</ui-card-buttons></ui-card-actions
     >
   </ui-card>
 </template>
@@ -34,9 +34,7 @@ export default {
   background: #fff;
   border: 1px solid #999;
   float: left;
-  /* font-size: 10px; */
   font-weight: bold;
-  /* line-height: 34px; */
   height: 10vw;
   margin-right: -1px;
   margin-top: -1px;
@@ -45,8 +43,12 @@ export default {
   width: 10vw;
 }
 
-.mdc-card{
+.mdc-card {
   justify-content: center;
   align-items: center;
+}
+
+.mdc-card.mdc-theme--on-surface {
+  border-radius: 0;
 }
 </style>

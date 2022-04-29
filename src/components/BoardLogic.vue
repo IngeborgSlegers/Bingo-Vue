@@ -115,5 +115,7 @@ export default {
   /* justify-content: space-evenly; */
   align-content: center;
   align-items: center;
+  border-radius: 4px;
+  overflow: hidden;
 }
 </style>

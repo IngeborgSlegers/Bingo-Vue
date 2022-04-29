@@ -1,7 +1,6 @@
 <template>
   <div class="main">
-    <BoardLogic
-    />
+    <BoardLogic />
     <DunnoComp />
     <h2>Or create your own!</h2>
     <ModalComponent :open="modalOpen" />
@@ -11,14 +10,14 @@
 <script>
 import BoardLogic from "./components/BoardLogic.vue";
 import ModalComponent from "./components/ModalComponent.vue";
-import DunnoComp from './components/DunnoComp.vue'
+import DunnoComp from "./components/DunnoComp.vue";
 import { mapActions, mapState, mapMutations } from "vuex";
 
 export default {
   components: {
     BoardLogic,
     ModalComponent,
-    DunnoComp
+    DunnoComp,
   },
   data() {
     return {
@@ -30,7 +29,7 @@ export default {
       themes: (state) => state.themeModule.themes,
       theme_id: (state) => state.themeModule.theme_id,
       board: (state) => state.boardModule.board,
-      coordinates: (state) => state.boardModule.coordinates
+      coordinates: (state) => state.boardModule.coordinates,
     }),
   },
   methods: {
@@ -41,7 +40,7 @@ export default {
 
     ...mapMutations({
       setThemeID: "themeModule/setThemeID",
-      setBoard: "boardModule/setBoard"
+      setBoard: "boardModule/setBoard",
     }),
 
     onConfirm(result) {
@@ -57,7 +56,7 @@ export default {
   },
   watch: {
     board(newState) {
-      this.setBoard(newState)
+      this.setBoard(newState);
     },
     open(newState, oldState) {
       console.log("I'm watching you", newState, oldState);
@@ -73,8 +72,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  /* margin-top: 60px; */
+  /* color: #2c3e50; */
 }
 
 .main {
@@ -82,9 +80,20 @@ export default {
   flex-direction: column;
   align-content: center;
   align-items: center;
+  margin: 0;
 }
 
 .mdc-form.mdc-form--horizontal {
   margin-top: 16px;
+}
+
+body {
+  background-color: #1881ea;
+  margin: 0;
+  color: white;
+}
+
+.mdc-button--raised {
+  background-color: #0C0033!important;
 }
 </style>

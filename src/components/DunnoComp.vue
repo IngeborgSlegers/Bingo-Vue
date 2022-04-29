@@ -1,6 +1,6 @@
 <template>
   <h2>Choose a theme</h2>
-  <ui-form nowrap item-margin-bottom="16" label-width="80">
+  <ui-form nowrap item-margin-bottom="16" label-width="80" action-align="center">
     <template #default="{ actionClass }">
       <ui-form-field>
         <ui-select
