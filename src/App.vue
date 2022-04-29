@@ -1,51 +1,27 @@
 <template>
   <div class="main">
     <BoardLogic
-      :board="this.board"
-      :coordinates="this.coordinates"
-      :gotASquare="this.gotASquare"
     />
-    <h2>Choose a theme</h2>
-    <ui-form nowrap item-margin-bottom="16" label-width="80">
-      <template #default="{ actionClass }">
-        <ui-form-field>
-          <ui-select
-            v-model="theme_id"
-            :options="formatThemes(themes)"
-            default-label="Select a Theme"
-            @change="onSelected($event)"
-            >Board Themes</ui-select
-          >
-        </ui-form-field>
-        <ui-form-field :class="actionClass">
-          <ui-button raised @click.prevent="fetchBoard()">Fetch!</ui-button>
-        </ui-form-field>
-      </template>
-    </ui-form>
+    <DunnoComp />
     <h2>Or create your own!</h2>
-    <ModalComponent
-      :open="modalOpen"
-      :fetchThemes="fetchThemes"
-      :themes="themes"
-    />
+    <ModalComponent :open="modalOpen" />
   </div>
 </template>
 
 <script>
 import BoardLogic from "./components/BoardLogic.vue";
-import boardDataTemplate from "./components/boardDataTemplate";
 import ModalComponent from "./components/ModalComponent.vue";
-import { mapActions, mapState } from "vuex";
+import DunnoComp from './components/DunnoComp.vue'
+import { mapActions, mapState, mapMutations } from "vuex";
 
 export default {
   components: {
     BoardLogic,
     ModalComponent,
+    DunnoComp
   },
   data() {
     return {
-      board: boardDataTemplate,
-      coordinates: { row: null, column: null },
       modalOpen: false,
     };
   },
@@ -53,38 +29,20 @@ export default {
     ...mapState({
       themes: (state) => state.themeModule.themes,
       theme_id: (state) => state.themeModule.theme_id,
+      board: (state) => state.boardModule.board,
+      coordinates: (state) => state.boardModule.coordinates
     }),
   },
   methods: {
     ...mapActions({
       fetchThemes: "themeModule/fetchThemes",
+      fetchBoard: "boardModule/fetchBoard",
     }),
 
-    async fetchBoard() {
-      const response = await fetch(
-        `http://localhost:3000/squares/${this.theme_id}`
-      );
-      const data = await response.json();
-      if (data.board) this.board = data.board;
-    },
-
-    gotASquare(rowIndex, squareIndex) {
-      this.board[rowIndex][squareIndex].checked = true;
-      this.coordinates = { row: rowIndex, column: squareIndex };
-    },
-
-    onSelected(theme) {
-      this.theme = theme.id;
-    },
-
-    formatThemes(themes) {
-      return themes.map((theme) => {
-        return {
-          label: theme.themeName,
-          value: theme.id,
-        };
-      });
-    },
+    ...mapMutations({
+      setThemeID: "themeModule/setThemeID",
+      setBoard: "boardModule/setBoard"
+    }),
 
     onConfirm(result) {
       if (result) {
@@ -94,12 +52,12 @@ export default {
       }
     },
   },
-  mounted() {
+  created() {
     this.fetchThemes();
   },
   watch: {
     board(newState) {
-      this.board = newState;
+      this.setBoard(newState)
     },
     open(newState, oldState) {
       console.log("I'm watching you", newState, oldState);

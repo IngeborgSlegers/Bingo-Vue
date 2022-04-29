@@ -16,23 +16,18 @@ const mutations = {
     state.theme = payload;
   },
   setThemeID(state, payload) {
-      console.log(payload)
     state.theme_id = payload;
   },
 };
 
 const getters = {
   formatThemes: (state) => {
-    if (state.themes.length > 0) {
-      return state.themes.map((theme) => {
-        return {
-          label: theme.themeName,
-          value: theme.id,
-        };
-      });
-    } else {
-      return [];
-    }
+    return state.themes.map((theme) => {
+      return {
+        label: theme.themeName,
+        value: theme.id,
+      };
+    });
   },
 };
 

@@ -15,7 +15,8 @@ const mutations = {
     state.error = payload;
   },
   setSquares(state, payload) {
-    state.squares.push(payload);
+    const { value, index } = payload;
+    state.squares[index] = value;
   },
 };
 

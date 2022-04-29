@@ -13,7 +13,7 @@
         <ui-form-field v-for="n in 25" :key="n - 1">
           <ui-textfield
             :model-value="squares[n - 1]"
-            @input="(e) => setSquares(e.target.value)"
+            @input="(e) => setSquares({value: e.target.value, index: n-1})"
           >
             Option {{ n }}
           </ui-textfield>
@@ -31,9 +31,6 @@
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
 export default {
-  // props: {
-  //   fetchThemes: Function,
-  // },
   computed: {
     ...mapState({
       theme: (state) => state.themeModule.theme,

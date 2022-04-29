@@ -5,7 +5,6 @@
       <BoardSquare
         v-for="(square, squareIndex) in row"
         :key="`${rowIndex},${squareIndex}`"
-        :gotASquare="this.gotASquare"
         :rowIndex="rowIndex"
         :square="square"
         :squareIndex="squareIndex"
@@ -16,10 +15,10 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import BoardSquare from "./BoardSquare.vue";
 
 export default {
-  props: ["board", "coordinates", "gotASquare"],
   data() {
     return {
       isBingo: false,
@@ -30,6 +29,10 @@ export default {
     displayBingoTitle() {
       return this.isBingo ? "BINGO!" : "No Bingo";
     },
+    ...mapState({
+      board: (state) => state.boardModule.board,
+      coordinates: (state) => state.boardModule.coordinates
+    }),
   },
   methods: {
     checkRow(rowIndex) {

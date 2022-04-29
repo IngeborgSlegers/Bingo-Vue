@@ -1,5 +1,12 @@
+import boardDataTemplate from "@/components/boardDataTemplate";
+
 const state = () => ({
   error: "",
+  board: boardDataTemplate,
+  coordinates: {
+    row: null,
+    column: null,
+  },
 });
 
 const mutations = {
@@ -9,12 +16,23 @@ const mutations = {
   setError(state, payload) {
     state.error = payload;
   },
+  setBoard(state, payload) {
+    state.board = payload;
+  },
+  setBoardChecked(state, payload) {
+    const { row, column } = payload;
+    state.board[row][column].checked = true;
+  },
+  setCoordinates(state, payload) {
+    const { rowIndex, squareIndex } = payload;
+    state.coordinates = {
+      row: rowIndex,
+      column: squareIndex,
+    };
+  },
 };
 
 const actions = {
-  setDisplayValue({ commit }, displayValue) {
-    commit("goDisplayValue", displayValue);
-  },
   async createCustomBoard({ commit, rootState, dispatch }) {
     try {
       const response = await fetch("http://localhost:3000/boards", {
@@ -38,8 +56,28 @@ const actions = {
     } catch (error) {
       commit("setError", error);
     }
-    // this.theme = "";
-    // this.fetchThemes();
+  },
+
+  async fetchBoard({ commit, rootState }) {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/squares/${rootState.themeModule.theme_id}`
+      );
+      const data = await response.json();
+      if (data.board) {
+        commit("setBoard", data.board);
+      } else {
+        commit("setError", data.error);
+      }
+    } catch (error) {
+      commit("setError", error);
+    }
+  },
+
+  checkedASquare({ commit, state }, payload) {
+    const { rowIndex, squareIndex } = payload;
+    commit("setCoordinates", { rowIndex, squareIndex });
+    commit("setBoardChecked", state.coordinates);
   },
 };
 
