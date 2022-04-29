@@ -1,23 +1,30 @@
 <template>
   <div>
-    <ui-form nowrap item-margin-bottom="16" label-width="80">
+    <ui-form nowrap item-margin-bottom="16">
       <template #default="{ actionClass }">
+        <h5 :class="$tt('headline5')">1. First, create a theme!</h5>
         <ui-form-field>
-          <ui-textfield 
-            :model-value="theme" 
+          <ui-textfield
+            :model-value="theme"
             @input="(e) => setTheme(e.target.value)"
           >
             Create a Theme
           </ui-textfield>
         </ui-form-field>
-        <ui-form-field v-for="n in 25" :key="n - 1">
-          <ui-textfield
-            :model-value="squares[n - 1]"
-            @input="(e) => setSquares({value: e.target.value, index: n-1})"
-          >
-            Option {{ n }}
-          </ui-textfield>
-        </ui-form-field>
+        <h5 :class="$tt('headline5')">2. Next, add at least 25 entries.</h5>
+        <div class="inputList">
+          <ui-form-field v-for="n in 25" :key="n - 1">
+            <ui-textfield
+              :model-value="squares[n - 1]"
+              @input="
+                (e) => setSquares({ value: e.target.value, index: n - 1 })
+              "
+            >
+              Option {{ n }}
+            </ui-textfield>
+          </ui-form-field>
+        </div>
+        <h5 :class="$tt('headline5')">3. Punch it Chewy!</h5>
         <ui-form-field :class="actionClass">
           <ui-button raised @click.prevent="createCustomBoard()"
             >Create Board!</ui-button
@@ -52,4 +59,21 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.inputList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.inputList .mdc-form-field {
+  margin-left: 2em;
+  margin-right: 2em;
+}
+
+.inputList + .mdc-form-field {
+  padding-left: 0;
+  margin-top: 2em
+}
+</style>
