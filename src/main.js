@@ -11,10 +11,11 @@ import {
   themeModule,
   squareModule,
   boardModule,
+  snackBarModule
 } from "./store/modules/index.js";
 
 const store = createStore({
-  modules: { themeModule, squareModule, boardModule },
+  modules: { themeModule, squareModule, boardModule, snackBarModule },
 });
 
 const app = createApp(App);

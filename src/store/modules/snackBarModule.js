@@ -1,23 +1,30 @@
 // import APIURL from "@/helpers/environment";
 
 const state = () => ({
-  error: "",
-  confirmation: [],
+  bannerToggle: false,
+  message: "",
+  type: ""
 });
 
 const mutations = {
-  setConfirmation(state, payload) {
-    state.confirmation = payload;
+  setBannerToggle(state, payload) {
+    state.bannerToggle = payload;
   },
-  setError(state, payload) {
-    state.error = payload;
+  setMessage(state, payload) {
+    state.message = payload;
   },
+  setType(state, payload) {
+    state.type = payload;
+  }
 };
 
 const actions = {
-  setDisplayValue({ commit }, displayValue) {
-    commit("goDisplayValue", displayValue);
-  },
+  triggerBanner({commit}, payload) {
+    console.log("this is triggered", payload)
+    commit("setBannerToggle", payload.toggle);
+    commit("setMessage", payload.message);
+    commit("setType", payload.type)
+  }
 };
 
 export default {

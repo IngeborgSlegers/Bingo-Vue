@@ -4,6 +4,7 @@ const state = () => ({
   themes: [],
   theme_id: 0,
   theme: "",
+  selectedTheme: ""
 });
 
 const mutations = {
@@ -16,6 +17,9 @@ const mutations = {
   setThemeID(state, payload) {
     state.theme_id = payload;
   },
+  setSelectedTheme(state) {
+    state.selectedTheme = state.theme
+  }
 };
 
 const getters = {
@@ -57,6 +61,7 @@ const actions = {
       if (response.status === 201) {
         await dispatch("fetchThemes");
         commit("setTheme", "");
+        commit("setSelectedTheme")
       } else {
         commit("snackBarModule/setError", data.error);
       }

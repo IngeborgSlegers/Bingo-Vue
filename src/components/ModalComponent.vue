@@ -10,9 +10,9 @@
           <ui-tab>Build a custom board</ui-tab>
         </ui-tabs>
         <ui-panels v-model="active">
-          <ui-panel><CreateTheme /></ui-panel>
-          <ui-panel><ChooseTheme /></ui-panel>
-          <ui-panel><CreateSquare /></ui-panel>
+          <ui-panel><NewThemePanel /></ui-panel>
+          <ui-panel><AddSquareToThemePanel /></ui-panel>
+          <ui-panel><CustomBoardPanel /></ui-panel>
         </ui-panels>
       </ui-dialog-content>
       <ui-dialog-actions></ui-dialog-actions>
@@ -21,15 +21,15 @@
 </template>
 
 <script>
-import CreateTheme from "./Forms/CreateTheme.vue";
-import ChooseTheme from "./Forms/ChooseTheme.vue";
-import CreateSquare from "./Forms/CreateSquare.vue";
+import AddSquareToThemePanel from './Panels/AddSquareToThemePanel.vue';
+import CustomBoardPanel from './Panels/CustomBoardPanel.vue';
+import NewThemePanel from './Panels/NewThemePanel.vue';
 
 export default {
   components: {
-    CreateTheme,
-    ChooseTheme,
-    CreateSquare
+    AddSquareToThemePanel,
+    CustomBoardPanel,
+    NewThemePanel
   },
   props: {
     modalOpen: Boolean,

@@ -10,6 +10,8 @@
   "dependencies": {
     "balm-ui": "^10.5.0",
     "core-js": "^3.22.2",
+    "node-sass": "^7.0.1",
+    "sass-loader": "^13.0.0",
     "vue": "^3.2.13",
     "vuex": "^4.0.2"
   },

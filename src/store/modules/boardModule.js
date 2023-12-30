@@ -45,26 +45,28 @@ const actions = {
         commit("setTheme", "");
         commit("setSquares", []);
       } else {
-        commit("snackBarModule/setError", data.error);
+        dispatch("snackBarModule/triggerBanner", {message: data.error, type: "error"}, {root: true});
       }
     } catch (error) {
-      commit("snackBarModule/setError", error);
+      dispatch("snackBarModule/triggerBanner", {message: error, type: "error"}, {root: true});
     }
   },
 
-  async fetchBoard({ commit, rootState }) {
+  async fetchBoard({ commit, dispatch, rootState }) {
     try {
       const response = await fetch(
         `${APIURL}/squares/${rootState.themeModule.theme_id}`
       );
       const data = await response.json();
+      console.log(data)
       if (data.board) {
         commit("setBoard", data.board);
+        dispatch("snackBarModule/triggerBanner", {message: data.message, type: "confirmation", toggle: true}, {root: true});
       } else {
-        commit("snackBarModule/setError", data.error);
+        dispatch("snackBarModule/triggerBanner", {message: data.error ? data.error : data.message, type: "error", toggle: true}, {root: true});
       }
     } catch (error) {
-      commit("snackBarModule/setError", error);
+      dispatch("snackBarModule/triggerBanner", {message: error, type: "error", toggle: true}, {root: true});
     }
   },
 

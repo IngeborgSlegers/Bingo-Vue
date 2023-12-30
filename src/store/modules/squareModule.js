@@ -38,6 +38,20 @@ const actions = {
       commit("snackBarModule/setError", error);
     }
   },
+
+  async getSquaresByTheme({commit}, theme_id) {
+    try {
+      const response = await fetch (`${APIURL}/board/${theme_id}`)
+      const data = await response.json();
+      if (response.status === 200) {
+        commit("setSquares", data.squares_by_theme);
+      } else {
+        commit("snackBarModule/setError", data.error);
+      }
+    } catch (error) {
+      commit("snackBarModule/setError", error);
+    }
+  }
 };
 
 export default {

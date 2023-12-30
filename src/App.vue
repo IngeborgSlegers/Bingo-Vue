@@ -1,14 +1,21 @@
 <template>
+  <Banner />
   <div class="main">
-    <BoardLogic />
-    <DunnoComp />
-    <h2>Or create your own!</h2>
-    <ModalComponent :open="modalOpen" />
+    <div v-if="selectedTheme">
+      <BoardLogic />
+    </div>
+    <div v-else>
+      <!-- {{ displayBoard }} -->
+      <DunnoComp />
+      <h2>Or create your own!</h2>
+      <ModalComponent :open="modalOpen" />
+    </div>
   </div>
 </template>
 
 <script>
 import BoardLogic from "./components/BoardLogic.vue";
+import Banner from "./components/Banners/SnackbarComponent.vue";
 import ModalComponent from "./components/ModalComponent.vue";
 import DunnoComp from "./components/DunnoComp.vue";
 import { mapActions, mapState, mapMutations } from "vuex";
@@ -18,6 +25,7 @@ export default {
     BoardLogic,
     ModalComponent,
     DunnoComp,
+    Banner,
   },
   data() {
     return {
@@ -30,6 +38,7 @@ export default {
       theme_id: (state) => state.themeModule.theme_id,
       board: (state) => state.boardModule.board,
       coordinates: (state) => state.boardModule.coordinates,
+      selectedTheme: (state) => state.themeModule.selectedTheme,
     }),
   },
   methods: {
@@ -50,6 +59,21 @@ export default {
         console.log("cancel");
       }
     },
+    // boardHasContent() {
+    //   const response = this.board.forEach((row) => {
+    //     return row.forEach((square) => {
+    //       if (square.value == true) {
+    //         console.log("true");
+    //         return true;
+    //       } else {
+    //         console.log("false");
+    //         return false;
+    //       }
+    //       // return square.value ? true : false;
+    //     });
+    //   });
+    //   console.log("response", response);
+    // },
   },
   created() {
     this.fetchThemes();
@@ -62,6 +86,9 @@ export default {
       console.log("I'm watching you", newState, oldState);
       this.open = newState;
     },
+    selectedTheme() {
+      console.log("A theme has been updated")
+    }
   },
 };
 </script>
@@ -94,6 +121,6 @@ body {
 }
 
 .mdc-button--raised {
-  background-color: #0C0033!important;
+  background-color: #0c0033 !important;
 }
 </style>
